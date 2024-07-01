@@ -1,0 +1,8 @@
+*.aux
+*.log
+*.out
+*.tex
+*.pdf
+.DS_Store
+invoicetastic
+invoice.yaml

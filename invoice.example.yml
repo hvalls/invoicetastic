@@ -1,0 +1,41 @@
+number: "TI-2024-081"
+date:  "2024-07-01"
+dueDate: "2024-07-01"
+provider:
+  name: "Tech Innovators Inc."
+  vat: "GB123456789"
+  address: 
+    line1: "1234 Innovation Drive, Suite 567"
+    line2: "Silicon Valley, CA 94043"
+    line3:
+customer:
+  name: Creative Solutions Ltd.
+  vat: "DE987654321"
+  address:
+    line1: "789 Pioneer Avenue, Floor 3"
+    line2: "New York, NY 10001"
+    line3:
+products:
+  - description: "Innovative Tech Software License	"
+    qty: 10
+    unitPrice: "500"
+    total: "5000"
+  - description: "Technical Support (Annual)"
+    qty: 1
+    unitPrice: "1200"
+    total: "1200"
+subtotal: "7000"
+taxes:
+  - name: "VAT"
+    percentage: "10"
+    value: "700"
+total: "7700"
+contact:
+  name: "Tech Innovators Inc."
+  email: "billing@techinnovators.com"
+  website: "https://www.techinnovators.com"
+paymentInfo:
+  bank: "Silicon Valley Bank"
+  accountName: "Tech Innovators Inc."
+  accountNumber: "123456789"
+  swiftBic: "SVBXXX"
