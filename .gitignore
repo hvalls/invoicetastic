@@ -4,4 +4,4 @@
 *.pdf
 .DS_Store
 invoicetastic
-invoice.yaml
+examples/2invoice.example.yml
