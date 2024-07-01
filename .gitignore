@@ -5,3 +5,6 @@
 .DS_Store
 invoicetastic
 examples/2invoice.example.yml
+_customers/
+_providers/
+_taxes
