@@ -17,13 +17,13 @@ That will generate an executable `invoicetastic`.
 ## Usage
 
 ```bash
-$ invoicetastic generate -f {path_to_invoice_yaml_file}
+$ invoicetastic generate -f {path_to_invoice_yaml_file} -t {path_to_template}
 ```
 
 #### Example
 
 ```bash
-$ invoicetastic generate -f invoice.example.yml
+$ invoicetastic generate -f invoice.example.yml -t _templates/english-usd.tex
 ```
 
 ## Invoice YAML file format
