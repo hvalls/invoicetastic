@@ -30,6 +30,32 @@ $ invoicetastic generate -f examples/invoice.example.yml -t _templates/english-u
 
 [This is an example of an invoice YAML file](./examples/invoice.example.yml)
 
+### Import entities
+
+You can import the `provider`, `customer` and `taxes` from other YAML files so you don't have to rewrite them in every invoice YAML file. 
+
+For example, create a file `./customers/acme.yml` with content below:
+
+```yaml
+name: ACME Inc.
+vat:  123456789
+address: 
+  line1: This is
+  line2: the 
+  line3: address
+```
+
+and then import it inside your invoice main YAML file:
+
+```yaml
+// ...
+customer:
+  import: "./customers/acme.yml"
+// ...
+```
+
+You can do the same with the `provider` and `taxes`. Remember `taxes` YAML file must be an array.
+
 ## Templates
 
 A template is just a LaTex file using [Golang template system](https://pkg.go.dev/text/template). There are some templates under `_templates` directory you can use. Also, you can create your own templates. 
