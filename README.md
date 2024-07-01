@@ -23,12 +23,12 @@ $ invoicetastic generate -f {path_to_invoice_yaml_file} -t {path_to_template}
 #### Example
 
 ```bash
-$ invoicetastic generate -f invoice.example.yml -t _templates/english-usd.tex
+$ invoicetastic generate -f examples/invoice.example.yml -t _templates/english-usd.tex
 ```
 
 ## Invoice YAML file format
 
-[This is an example of an invoice YAML file](./invoice.example.yml)
+[This is an example of an invoice YAML file](./examples/invoice.example.yml)
 
 ## Templates
 
