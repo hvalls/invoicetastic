@@ -18,18 +18,13 @@ customer:
 products:
   - description: "Innovative Tech Software License"
     qty: 10
-    unitPrice: "500"
-    total: "5000"
+    unitPrice: 500
   - description: "Technical Support (Annual)"
     qty: 1
-    unitPrice: "1200"
-    total: "1200"
-subtotal: "7000"
+    unitPrice: 300
 taxes:
   - name: "VAT"
-    percentage: "10"
-    value: "700"
-total: "7700"
+    percentage: 10
 contact:
   name: "Tech Innovators Inc."
   email: "billing@techinnovators.com"

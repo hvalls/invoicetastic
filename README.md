@@ -55,13 +55,13 @@ A template is just a LaTex file using [Golang template system](https://pkg.go.de
 | `{{ .Products[*].Description }}`   | `products.*.description`  | Product description |
 | `{{ .Products[*].Qty }}`   | `products.*.qty`  | Product quantity |
 | `{{ .Products[*].UnitPrice }}`   | `products.*.unitPrice`  | Product unit price |
-| `{{ .Products[*].Total }}`   | `products.*.total`  | Product total |
-| `{{ .Subtotal }}`   | `subtotal`  | Invoice subtotal |
+| `{{ .Products[*].Total }}`   | Computed value  | Product total |
+| `{{ .Subtotal }}`   | Computed value | Invoice subtotal |
 | `{{ .Taxes }}`   | `taxes`  |  List of taxes |
 | `{{ .Taxes[*].Name }}`   | `taxes.*.name`  |  Tax name |
 | `{{ .Taxes[*].Percentage }}`   | `taxes.*.percentage`  |  Tax percentage |
-| `{{ .Taxes[*].Value }}`   | `taxes.*.value`  |  Tax value |
-| `{{ .Total }}`   | `total`  |  Invoice total |
+| `{{ .Taxes[*].Value }}`   | Computed value  |  Tax value |
+| `{{ .Total }}`   | Computed value  |  Invoice total |
 | `{{ .Contact.Name }}`   | `contact.name`  |  Contact name |
 | `{{ .Contact.Email }}`   | `contact.email`  |  Contact email |
 | `{{ .Contact.Website }}`   | `contact.website`  |  Contact website |

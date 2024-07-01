@@ -5,9 +5,9 @@ import (
 )
 
 type TaxValue struct {
-	Name       string `yaml:"name"`
-	Percentage string `yaml:"percentage"`
-	Value      string `yaml:"value"`
+	Name       string  `yaml:"name"`
+	Percentage float64 `yaml:"percentage"`
+	Value      float64 // Computed
 }
 
 type Address struct {
@@ -23,10 +23,14 @@ type Company struct {
 }
 
 type Product struct {
-	Description string `yaml:"description"`
-	Qty         string `yaml:"qty"`
-	UnitPrice   string `yaml:"unitPrice"`
-	Total       string `yaml:"total"`
+	Description string  `yaml:"description"`
+	Qty         float64 `yaml:"qty"`
+	UnitPrice   float64 `yaml:"unitPrice"`
+	Total       float64 // Computed
+}
+
+func (p *Product) getTotal() float64 {
+	return p.UnitPrice * p.Qty
 }
 
 type Contact struct {
@@ -48,10 +52,10 @@ type Invoice struct {
 	DueDate     string      `yaml:"dueDate"`
 	Provider    Company     `yaml:"provider"`
 	Customer    Company     `yaml:"customer"`
-	Products    []Product   `yaml:"products"`
-	Subtotal    string      `yaml:"subtotal"`
-	Taxes       []TaxValue  `yaml:"taxes"`
-	Total       string      `yaml:"total"`
+	Products    []*Product  `yaml:"products"`
+	Subtotal    float64     // Computed
+	Taxes       []*TaxValue `yaml:"taxes"`
+	Total       float64     // Computed
 	Contact     Contact     `yaml:"contact"`
 	PaymentInfo PaymentInfo `yaml:"paymentInfo"`
 }
@@ -62,5 +66,42 @@ func ParseInvoice(content string) (*Invoice, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	// compute product totals
+	for _, p := range inv.Products {
+		p.Total = p.getTotal()
+	}
+
+	// compute invoice subtotal
+	subtotal, err := inv.getSubtotal()
+	if err != nil {
+		return nil, err
+	}
+	inv.Subtotal = subtotal
+
+	// compute tax values
+	for _, t := range inv.Taxes {
+		t.Value = (inv.Subtotal * t.Percentage) / 100
+	}
+
+	// compute invoice total
+	inv.Total = inv.getTotal()
+
 	return &inv, nil
+}
+
+func (inv *Invoice) getSubtotal() (float64, error) {
+	subtotal := 0.0
+	for _, p := range inv.Products {
+		subtotal += p.getTotal()
+	}
+	return subtotal, nil
+}
+
+func (inv *Invoice) getTotal() float64 {
+	total := inv.Subtotal
+	for _, tv := range inv.Taxes {
+		total += tv.Value
+	}
+	return total
 }
