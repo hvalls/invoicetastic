@@ -42,11 +42,7 @@ type PaymentInfo struct {
 	SwiftBIC      string `yaml:"swiftBic"`
 }
 
-type Metadata struct {
-	Template string `yaml:"template"`
-}
-
-type Spec struct {
+type Invoice struct {
 	Number      string      `yaml:"number"`
 	Date        string      `yaml:"date"`
 	DueDate     string      `yaml:"dueDate"`
@@ -58,11 +54,6 @@ type Spec struct {
 	Total       string      `yaml:"total"`
 	Contact     Contact     `yaml:"contact"`
 	PaymentInfo PaymentInfo `yaml:"paymentInfo"`
-}
-
-type Invoice struct {
-	Metadata Metadata `yaml:"metadata"`
-	Spec     Spec     `yaml:"spec"`
 }
 
 func ParseInvoice(content string) (*Invoice, error) {

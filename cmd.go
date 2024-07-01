@@ -15,6 +15,7 @@ var rootCmd = &cobra.Command{
 }
 
 var filePath string
+var templatePath string
 
 var generateCmd = &cobra.Command{
 	Use:   "generate",
@@ -30,7 +31,7 @@ var generateCmd = &cobra.Command{
 			panic(err)
 		}
 
-		templateFileContent, err := os.ReadFile(inv.Metadata.Template)
+		templateFileContent, err := os.ReadFile(templatePath)
 		if err != nil {
 			panic(err)
 		}
@@ -40,14 +41,14 @@ var generateCmd = &cobra.Command{
 			panic(err)
 		}
 
-		texFileName := inv.Spec.Number + ".pdf"
+		texFileName := inv.Number + ".pdf"
 		texFile, err := os.Create(texFileName)
 		if err != nil {
 			panic(err)
 		}
 		defer texFile.Close()
 
-		err = tmpl.Execute(texFile, inv.Spec)
+		err = tmpl.Execute(texFile, inv)
 		if err != nil {
 			panic(err)
 		}
@@ -60,21 +61,22 @@ var generateCmd = &cobra.Command{
 			panic(err)
 		}
 
-		err = os.Remove(inv.Spec.Number + ".aux")
+		err = os.Remove(inv.Number + ".aux")
 		if err != nil {
 			panic(err)
 		}
 
-		err = os.Remove(inv.Spec.Number + ".log")
+		err = os.Remove(inv.Number + ".log")
 		if err != nil {
 			panic(err)
 		}
 
-		fmt.Println("✅" + inv.Spec.Number + ".pdf has been generated")
+		fmt.Println("✅" + inv.Number + ".pdf has been generated")
 	},
 }
 
 func NewGenerateCmd() *cobra.Command {
 	generateCmd.Flags().StringVarP(&filePath, "file", "f", "", "yaml file")
+	generateCmd.Flags().StringVarP(&templatePath, "template", "t", "", "yaml file")
 	return generateCmd
 }
