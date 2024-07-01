@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"os/exec"
@@ -21,6 +22,11 @@ var generateCmd = &cobra.Command{
 	Use:   "generate",
 	Short: "Generate invoice",
 	Run: func(cobraCmd *cobra.Command, args []string) {
+
+		if filePath == "" {
+			panic(errors.New(""))
+		}
+
 		invoiceFileContent, err := os.ReadFile(filePath)
 		if err != nil {
 			panic(err)
@@ -77,6 +83,16 @@ var generateCmd = &cobra.Command{
 
 func NewGenerateCmd() *cobra.Command {
 	generateCmd.Flags().StringVarP(&filePath, "file", "f", "", "yaml file")
+	err := generateCmd.MarkFlagRequired("file")
+	if err != nil {
+		panic(err)
+	}
+
 	generateCmd.Flags().StringVarP(&templatePath, "template", "t", "", "yaml file")
+	err = generateCmd.MarkFlagRequired("template")
+	if err != nil {
+		panic(err)
+	}
+
 	return generateCmd
 }
