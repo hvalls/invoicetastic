@@ -39,12 +39,14 @@ func (p *Product) getTotal() float64 {
 }
 
 type Contact struct {
+	Import  string `yaml:"import"`
 	Name    string `yaml:"name"`
 	Email   string `yaml:"email"`
 	Website string `yaml:"website"`
 }
 
 type PaymentInfo struct {
+	Import        string `yaml:"import"`
 	Bank          string `yaml:"bank"`
 	AccountName   string `yaml:"accountName"`
 	AccountNumber string `yaml:"accountNumber"`
@@ -52,17 +54,17 @@ type PaymentInfo struct {
 }
 
 type Invoice struct {
-	Number      string      `yaml:"number"`
-	Date        string      `yaml:"date"`
-	DueDate     string      `yaml:"dueDate"`
-	Provider    *Company    `yaml:"provider"`
-	Customer    *Company    `yaml:"customer"`
-	Products    []*Product  `yaml:"products"`
-	Subtotal    float64     // Computed
-	Taxes       any         `yaml:"taxes"`
-	Total       float64     // Computed
-	Contact     Contact     `yaml:"contact"`
-	PaymentInfo PaymentInfo `yaml:"paymentInfo"`
+	Number      string       `yaml:"number"`
+	Date        string       `yaml:"date"`
+	DueDate     string       `yaml:"dueDate"`
+	Provider    *Company     `yaml:"provider"`
+	Customer    *Company     `yaml:"customer"`
+	Products    []*Product   `yaml:"products"`
+	Subtotal    float64      // Computed
+	Taxes       any          `yaml:"taxes"`
+	Total       float64      // Computed
+	Contact     *Contact     `yaml:"contact"`
+	PaymentInfo *PaymentInfo `yaml:"paymentInfo"`
 }
 
 func ParseInvoice(content string) (*Invoice, error) {
@@ -104,6 +106,24 @@ func ParseInvoice(content string) (*Invoice, error) {
 			return nil, err
 		}
 		inv.Taxes = txx
+	}
+
+	// import contact
+	if inv.Contact.Import != "" {
+		cont, err := importContact(inv.Contact.Import)
+		if err != nil {
+			return nil, err
+		}
+		inv.Contact = cont
+	}
+
+	// import payment info
+	if inv.PaymentInfo.Import != "" {
+		paym, err := importPaymentInfo(inv.PaymentInfo.Import)
+		if err != nil {
+			return nil, err
+		}
+		inv.PaymentInfo = paym
 	}
 
 	// compute product totals
@@ -156,6 +176,32 @@ func importCompany(filePath string) (*Company, error) {
 		return nil, err
 	}
 	return &comp, nil
+}
+
+func importContact(filePath string) (*Contact, error) {
+	contactFileContent, err := os.ReadFile(filePath)
+	if err != nil {
+		return nil, err
+	}
+	var cont Contact
+	err = yaml.Unmarshal([]byte(contactFileContent), &cont)
+	if err != nil {
+		return nil, err
+	}
+	return &cont, nil
+}
+
+func importPaymentInfo(filePath string) (*PaymentInfo, error) {
+	paymentFileContent, err := os.ReadFile(filePath)
+	if err != nil {
+		return nil, err
+	}
+	var paym PaymentInfo
+	err = yaml.Unmarshal([]byte(paymentFileContent), &paym)
+	if err != nil {
+		return nil, err
+	}
+	return &paym, nil
 }
 
 func importTaxes(filePath string) ([]*Tax, error) {

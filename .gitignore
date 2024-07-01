@@ -7,4 +7,6 @@ invoicetastic
 examples/2invoice.example.yml
 _customers/
 _providers/
-_taxes
+_taxes/
+_contact/
+_payment/

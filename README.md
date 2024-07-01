@@ -32,7 +32,7 @@ $ invoicetastic generate -f examples/invoice.example.yml -t _templates/english-u
 
 ### Import entities
 
-You can import the `provider`, `customer` and `taxes` from other YAML files so you don't have to rewrite them in every invoice YAML file. 
+You can import `provider`, `customer`, `taxes`, `contact` and `paymentInfo` sections from other YAML files so you don't have to rewrite them in every invoice. 
 
 For example, create a file `./customers/acme.yml` with content below:
 
@@ -54,7 +54,7 @@ customer:
 // ...
 ```
 
-You can do the same with the `provider` and `taxes`. Remember `taxes` YAML file must be an array.
+NOTE: Remember `taxes` YAML file must be an array.
 
 ## Templates
 
