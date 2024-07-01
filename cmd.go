@@ -30,7 +30,7 @@ var generateCmd = &cobra.Command{
 			panic(err)
 		}
 
-		templateFileContent, err := os.ReadFile("_templates/spanish-default.tex")
+		templateFileContent, err := os.ReadFile(inv.Metadata.Template)
 		if err != nil {
 			panic(err)
 		}
@@ -40,14 +40,14 @@ var generateCmd = &cobra.Command{
 			panic(err)
 		}
 
-		texFileName := inv.Number + ".pdf"
+		texFileName := inv.Spec.Number + ".pdf"
 		texFile, err := os.Create(texFileName)
 		if err != nil {
 			panic(err)
 		}
 		defer texFile.Close()
 
-		err = tmpl.Execute(texFile, inv)
+		err = tmpl.Execute(texFile, inv.Spec)
 		if err != nil {
 			panic(err)
 		}
@@ -60,17 +60,17 @@ var generateCmd = &cobra.Command{
 			panic(err)
 		}
 
-		err = os.Remove(inv.Number + ".aux")
+		err = os.Remove(inv.Spec.Number + ".aux")
 		if err != nil {
 			panic(err)
 		}
 
-		err = os.Remove(inv.Number + ".log")
+		err = os.Remove(inv.Spec.Number + ".log")
 		if err != nil {
 			panic(err)
 		}
 
-		fmt.Println("✅" + inv.Number + ".pdf has been generated")
+		fmt.Println("✅" + inv.Spec.Number + ".pdf has been generated")
 	},
 }
 
