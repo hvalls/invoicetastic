@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"os"
 	"os/exec"
 	"text/template"
@@ -15,11 +16,14 @@ type LatexTemplate struct {
 	t *template.Template
 }
 
-func New(filePath string) (*LatexTemplate, error) {
-	if filePath == "" {
-		return newDefault()
+func New(tplLocation string) (*LatexTemplate, error) {
+	if tplLocation == "" {
+		return newFromURL(DefaultTemplateURL)
 	}
-	return newFromFile(filePath)
+	if isURL(tplLocation) {
+		return newFromURL(tplLocation)
+	}
+	return newFromFile(tplLocation)
 }
 
 func newFromFile(filePath string) (*LatexTemplate, error) {
@@ -30,8 +34,8 @@ func newFromFile(filePath string) (*LatexTemplate, error) {
 	return newFromContent(string(templateFileContent))
 }
 
-func newDefault() (*LatexTemplate, error) {
-	resp, err := http.Get(DefaultTemplateURL)
+func newFromURL(url string) (*LatexTemplate, error) {
+	resp, err := http.Get(url)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +55,12 @@ func newFromContent(content string) (*LatexTemplate, error) {
 	return &LatexTemplate{tmpl}, nil
 }
 
-func (t *LatexTemplate) Render(fileName string, data any) error {
+func isURL(s string) bool {
+	_, err := url.ParseRequestURI(s)
+	return err == nil
+}
+
+func (t *LatexTemplate) RenderPDF(fileName string, data any) error {
 	texFile, err := os.Create(fileName + ".pdf")
 	if err != nil {
 		panic(err)

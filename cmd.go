@@ -35,7 +35,7 @@ var generateCmd = &cobra.Command{
 			panic(err)
 		}
 
-		err = t.Render(inv.Number, inv)
+		err = t.RenderPDF(inv.Number, inv)
 		if err != nil {
 			panic(err)
 		}
