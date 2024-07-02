@@ -26,6 +26,12 @@ $ invoicetastic generate -f {path_to_invoice_yaml_file} -t {path_to_template}
 $ invoicetastic generate -f examples/invoice.example.yml -t _templates/english-usd.tex
 ```
 
+#### Parameters 
+| Parameter | Description | Required | Default value |
+|---|---|---|---|
+| `-f, --file`   | Invoice YAML file path  |  Yes |  |
+| `-t, --template`   | Invoice template (.tex) file path   |  No | https://raw.githubusercontent.com/hvalls/invoicetastic/main/_templates/english-usd.tex |
+
 ## Invoice YAML file format
 
 [This is an example of an invoice YAML file](./examples/invoice.example.yml)

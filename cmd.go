@@ -1,11 +1,9 @@
 package main
 
 import (
-	"errors"
 	"fmt"
+	"invoicetastic/latextemplate"
 	"os"
-	"os/exec"
-	"text/template"
 
 	"github.com/spf13/cobra"
 )
@@ -22,11 +20,6 @@ var generateCmd = &cobra.Command{
 	Use:   "generate",
 	Short: "Generate invoice",
 	Run: func(cobraCmd *cobra.Command, args []string) {
-
-		if filePath == "" {
-			panic(errors.New(""))
-		}
-
 		invoiceFileContent, err := os.ReadFile(filePath)
 		if err != nil {
 			panic(err)
@@ -37,47 +30,17 @@ var generateCmd = &cobra.Command{
 			panic(err)
 		}
 
-		templateFileContent, err := os.ReadFile(templatePath)
+		t, err := latextemplate.New(templatePath)
 		if err != nil {
 			panic(err)
 		}
 
-		tmpl, err := template.New("latex").Parse(string(templateFileContent))
+		err = t.Render(inv.Number, inv)
 		if err != nil {
 			panic(err)
 		}
 
-		texFileName := inv.Number + ".pdf"
-		texFile, err := os.Create(texFileName)
-		if err != nil {
-			panic(err)
-		}
-		defer texFile.Close()
-
-		err = tmpl.Execute(texFile, inv)
-		if err != nil {
-			panic(err)
-		}
-
-		cmd := exec.Command("pdflatex", texFileName)
-
-		output, err := cmd.CombinedOutput()
-		if err != nil {
-			fmt.Printf("Output:\n%s\n", output)
-			panic(err)
-		}
-
-		err = os.Remove(inv.Number + ".aux")
-		if err != nil {
-			panic(err)
-		}
-
-		err = os.Remove(inv.Number + ".log")
-		if err != nil {
-			panic(err)
-		}
-
-		fmt.Println("✅" + inv.Number + ".pdf has been generated")
+		fmt.Println("✅ Invoice has been generated")
 	},
 }
 
@@ -89,10 +52,6 @@ func NewGenerateCmd() *cobra.Command {
 	}
 
 	generateCmd.Flags().StringVarP(&templatePath, "template", "t", "", "yaml file")
-	err = generateCmd.MarkFlagRequired("template")
-	if err != nil {
-		panic(err)
-	}
 
 	return generateCmd
 }
