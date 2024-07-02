@@ -14,7 +14,7 @@ var rootCmd = &cobra.Command{
 }
 
 var filePath string
-var templatePath string
+var templateLocation string
 
 var generateCmd = &cobra.Command{
 	Use:   "generate",
@@ -30,7 +30,7 @@ var generateCmd = &cobra.Command{
 			panic(err)
 		}
 
-		t, err := latextemplate.New(templatePath)
+		t, err := latextemplate.New(templateLocation)
 		if err != nil {
 			panic(err)
 		}
@@ -51,7 +51,7 @@ func NewGenerateCmd() *cobra.Command {
 		panic(err)
 	}
 
-	generateCmd.Flags().StringVarP(&templatePath, "template", "t", "", "yaml file")
+	generateCmd.Flags().StringVarP(&templateLocation, "template", "t", "", "template location (file path or URL)")
 
 	return generateCmd
 }
