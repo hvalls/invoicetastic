@@ -2,9 +2,9 @@ package latextemplate
 
 import (
 	"fmt"
+	"invoicetastic/util"
 	"io"
 	"net/http"
-	"net/url"
 	"os"
 	"os/exec"
 	"text/template"
@@ -20,7 +20,7 @@ func New(tplLocation string) (*LatexTemplate, error) {
 	if tplLocation == "" {
 		return newFromURL(DefaultTemplateURL)
 	}
-	if isURL(tplLocation) {
+	if util.IsURL(tplLocation) {
 		return newFromURL(tplLocation)
 	}
 	return newFromFile(tplLocation)
@@ -53,11 +53,6 @@ func newFromContent(content string) (*LatexTemplate, error) {
 		return nil, err
 	}
 	return &LatexTemplate{tmpl}, nil
-}
-
-func isURL(s string) bool {
-	_, err := url.ParseRequestURI(s)
-	return err == nil
 }
 
 func (t *LatexTemplate) RenderPDF(fileName string, data any) error {

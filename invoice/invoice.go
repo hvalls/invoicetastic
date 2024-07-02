@@ -1,7 +1,10 @@
-package main
+package invoice
 
 import (
 	"fmt"
+	"invoicetastic/util"
+	"io"
+	"net/http"
 	"os"
 	"strconv"
 
@@ -67,7 +70,28 @@ type Invoice struct {
 	PaymentInfo *PaymentInfo `yaml:"paymentInfo"`
 }
 
-func ParseInvoice(content string) (*Invoice, error) {
+func New(location string) (*Invoice, error) {
+	var content string
+
+	if util.IsURL(location) {
+		resp, err := http.Get(location)
+		if err != nil {
+			return nil, err
+		}
+		defer resp.Body.Close()
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			return nil, err
+		}
+		content = string(body)
+	} else {
+		fileContent, err := os.ReadFile(location)
+		if err != nil {
+			return nil, err
+		}
+		content = string(fileContent)
+	}
+
 	var inv Invoice
 	err := yaml.Unmarshal([]byte(content), &inv)
 	if err != nil {

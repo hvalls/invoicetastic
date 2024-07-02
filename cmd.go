@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
+	"invoicetastic/invoice"
 	"invoicetastic/latextemplate"
-	"os"
 
 	"github.com/spf13/cobra"
 )
@@ -13,19 +13,14 @@ var rootCmd = &cobra.Command{
 	Short: "Invoicestastic is a tool for generating invoices",
 }
 
-var filePath string
+var invoiceLocation string
 var templateLocation string
 
 var generateCmd = &cobra.Command{
 	Use:   "generate",
 	Short: "Generate invoice",
 	Run: func(cobraCmd *cobra.Command, args []string) {
-		invoiceFileContent, err := os.ReadFile(filePath)
-		if err != nil {
-			panic(err)
-		}
-
-		inv, err := ParseInvoice(string(invoiceFileContent))
+		inv, err := invoice.New(invoiceLocation)
 		if err != nil {
 			panic(err)
 		}
@@ -45,7 +40,7 @@ var generateCmd = &cobra.Command{
 }
 
 func NewGenerateCmd() *cobra.Command {
-	generateCmd.Flags().StringVarP(&filePath, "file", "f", "", "yaml file")
+	generateCmd.Flags().StringVarP(&invoiceLocation, "file", "f", "", "invoice yaml file location (file path or URL)")
 	err := generateCmd.MarkFlagRequired("file")
 	if err != nil {
 		panic(err)

@@ -29,7 +29,7 @@ $ invoicetastic generate -f examples/invoice.example.yml -t _templates/english-u
 #### Parameters 
 | Parameter | Description | Required | Default value |
 |---|---|---|---|
-| `-f, --file`   | Invoice YAML file path  |  Yes |  |
+| `-f, --file`   | Invoice YAML file path or URL  |  Yes |  |
 | `-t, --template`   | Invoice template (.tex) file path or URL   |  No | https://raw.githubusercontent.com/hvalls/invoicetastic/main/_templates/english-usd.tex |
 
 ## Invoice YAML file format
