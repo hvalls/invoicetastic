@@ -13,7 +13,7 @@ var templateLocation string
 
 var generateCmd = &cobra.Command{
 	Use:   "generate",
-	Short: "Generate invoice",
+	Short: "Generate invoice PDF",
 	Run: func(cobraCmd *cobra.Command, args []string) {
 		inv, err := invoice.New(invoiceLocation)
 		if err != nil {
@@ -25,12 +25,12 @@ var generateCmd = &cobra.Command{
 			panic(err)
 		}
 
-		err = t.RenderPDF(inv.Number, inv)
+		fileName, err := t.RenderPDF(inv.Number, inv)
 		if err != nil {
 			panic(err)
 		}
 
-		fmt.Println("✅ Invoice has been generated")
+		fmt.Println(fileName + " file created")
 	},
 }
 

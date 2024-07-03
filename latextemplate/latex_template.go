@@ -55,29 +55,29 @@ func newFromContent(content string) (*LatexTemplate, error) {
 	return &LatexTemplate{tmpl}, nil
 }
 
-func (t *LatexTemplate) RenderPDF(fileName string, data any) error {
+func (t *LatexTemplate) RenderPDF(fileName string, data any) (string, error) {
 	texFile, err := os.Create(fileName + ".pdf")
 	if err != nil {
-		panic(err)
+		return "", err
 	}
 	defer texFile.Close()
 	err = t.t.Execute(texFile, data)
 	if err != nil {
-		return err
+		return "", err
 	}
 	cmd := exec.Command("pdflatex", texFile.Name())
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		fmt.Printf("%s\n", output)
-		return err
+		return "", err
 	}
 	err = os.Remove(fileName + ".aux")
 	if err != nil {
-		panic(err)
+		return "", err
 	}
 	err = os.Remove(fileName + ".log")
 	if err != nil {
-		panic(err)
+		return "", err
 	}
-	return err
+	return texFile.Name(), err
 }

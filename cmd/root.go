@@ -10,6 +10,7 @@ var rootCmd = &cobra.Command{
 }
 
 func init() {
+	rootCmd.AddCommand(buildCreateCmd())
 	rootCmd.AddCommand(buildGenerateCmd())
 }
 

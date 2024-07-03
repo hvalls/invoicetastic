@@ -1,29 +1,44 @@
 # Invoicetastic
 Invoicetastic is a CLI-based tool for generating invoices as PDF from a YAML file.
 
-## Installation
+# Installation
 
 In order to use Invoicetastic, first you need to install `texlive` tool in your system. 
 
 Then, build it from sources:
 
-```
+```bash
 $ cd invoicestastic/
 $ go build
 ```
 
 That will generate an executable `invoicetastic`.
 
-## Usage
+# Usage
+
+## Create empty invoice YAML file
+
+It creates a `.yml` file in the current directory with an empty invoice.
 
 ```bash
-$ invoicetastic generate -f {path_to_invoice_yaml_file} -t {path_to_template}
+$ invoicetastic create [invoice number]
 ```
 
-#### Example
+**Example**
+```bash
+$ invoicetastic create I-2024-3
+```
+
+## Generate PDF from invoice YAML file
+
+It renders invoice data to PDF using the given template (see section Templates).
 
 ```bash
-$ invoicetastic generate -f examples/invoice.example.yml -t _templates/english-usd.tex
+$ invoicetastic generate -f [invoice YAML file or URL] -t [template path or URL]
+```
+**Example**
+```bash
+$ invoicetastic generate -f I-2024-3.yml -t https://raw.githubusercontent.com/hvalls/invoicetastic/main/_templates/english-usd.tex
 ```
 
 #### Parameters 
@@ -32,7 +47,7 @@ $ invoicetastic generate -f examples/invoice.example.yml -t _templates/english-u
 | `-f, --file`   | Invoice YAML file path or URL  |  Yes |  |
 | `-t, --template`   | Invoice template (.tex) file path or URL   |  No | https://raw.githubusercontent.com/hvalls/invoicetastic/main/_templates/english-usd.tex |
 
-## Invoice YAML file format
+## Invoice YAML file
 
 [This is an example of an invoice YAML file](./examples/invoice.example.yml)
 
@@ -64,7 +79,7 @@ NOTE: Remember `taxes` YAML file must be an array.
 
 ## Templates
 
-A template is just a LaTex file using [Golang template system](https://pkg.go.dev/text/template). There are some templates under `_templates` directory you can use. Also, you can create your own templates. 
+A template is a LaTex file using [Golang template system](https://pkg.go.dev/text/template). There are some templates under `_templates` directory you can use. Also, you can create your own. 
 
 ### Parameters mapping
 
