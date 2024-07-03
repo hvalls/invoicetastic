@@ -1,9 +1,9 @@
 # Invoicetastic
-Invoicetastic is a CLI-based tool for generating invoices as PDF from a YAML file.
+Invoicetastic is a CLI-based tool for generating PDF invoices.
 
 # Installation
 
-In order to use Invoicetastic, first you need to install `texlive` tool in your system. 
+In order to use Invoicetastic, first you need to install `texlive` tool in your system
 
 Then, build it from sources:
 
