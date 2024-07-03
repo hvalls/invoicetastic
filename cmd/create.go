@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"invoicetastic/config"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -12,44 +13,20 @@ var createCmd = &cobra.Command{
 	Short: "Create new invoice YAML file",
 	Args:  cobra.ExactArgs(1),
 	Run: func(cobraCmd *cobra.Command, args []string) {
+		i, err := config.GetDefault()
+		if err != nil {
+			panic(err)
+		}
 		invoiceNumber := args[0]
-		text := `number: "` + invoiceNumber + `"
-date: ""
-dueDate: ""
-provider:
-  name: ""
-  vat: ""
-  address: 
-    line1: ""
-    line2: "" 
-    line3: ""
-customer:
-  name: ""
-  vat: ""
-  address:
-    line1: ""
-    line2: ""
-    line3: ""
-products:
-  - description: ""
-    qty: 0
-    unitPrice: 0.0
-taxes:
-  - name: ""
-    percentage: 0
-contact:
-  name: ""
-  email: ""
-  website: ""
-paymentInfo:
-  bank: ""
-  accountName: ""
-  accountNumber: ""
-  swiftBic: ""
-`
-		filename := invoiceNumber + ".yml"
+		i.Number = invoiceNumber
 
+		filename := invoiceNumber + ".yml"
 		file, err := os.Create(filename)
+		if err != nil {
+			panic(err)
+		}
+
+		text, err := i.MarshalYAML()
 		if err != nil {
 			panic(err)
 		}

@@ -15,7 +15,7 @@ var generateCmd = &cobra.Command{
 	Use:   "generate",
 	Short: "Generate invoice PDF",
 	Run: func(cobraCmd *cobra.Command, args []string) {
-		inv, err := invoice.New(invoiceLocation)
+		inv, err := invoice.NewFrom(invoiceLocation)
 		if err != nil {
 			panic(err)
 		}

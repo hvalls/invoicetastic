@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"time"
 
 	"gopkg.in/yaml.v2"
 )
@@ -14,7 +15,7 @@ import (
 type Tax struct {
 	Name       string  `yaml:"name"`
 	Percentage float64 `yaml:"percentage"`
-	Value      float64 // Computed
+	Value      float64 `yaml:"-"` // Computed
 }
 
 type Address struct {
@@ -24,17 +25,17 @@ type Address struct {
 }
 
 type Company struct {
-	Import  string  `yaml:"import"`
-	Name    string  `yaml:"name"`
-	VAT     string  `yaml:"vat"`
-	Address Address `yaml:"address"`
+	Import  string   `yaml:"import,omitempty"`
+	Name    string   `yaml:"name,omitempty"`
+	VAT     string   `yaml:"vat,omitempty"`
+	Address *Address `yaml:"address,omitempty"`
 }
 
 type Product struct {
 	Description string  `yaml:"description"`
 	Qty         float64 `yaml:"qty"`
 	UnitPrice   float64 `yaml:"unitPrice"`
-	Total       float64 // Computed
+	Total       float64 `yaml:"-"` // Computed
 }
 
 func (p *Product) getTotal() float64 {
@@ -42,18 +43,18 @@ func (p *Product) getTotal() float64 {
 }
 
 type Contact struct {
-	Import  string `yaml:"import"`
-	Name    string `yaml:"name"`
-	Email   string `yaml:"email"`
-	Website string `yaml:"website"`
+	Import  string `yaml:"import,omitempty"`
+	Name    string `yaml:"name,omitempty"`
+	Email   string `yaml:"email,omitempty"`
+	Website string `yaml:"website,omitempty"`
 }
 
 type PaymentInfo struct {
-	Import        string `yaml:"import"`
-	Bank          string `yaml:"bank"`
-	AccountName   string `yaml:"accountName"`
-	AccountNumber string `yaml:"accountNumber"`
-	SwiftBIC      string `yaml:"swiftBic"`
+	Import        string `yaml:"import,omitempty"`
+	Bank          string `yaml:"bank,omitempty"`
+	AccountName   string `yaml:"accountName,omitempty"`
+	AccountNumber string `yaml:"accountNumber,omitempty"`
+	SwiftBIC      string `yaml:"swiftBic,omitempty"`
 }
 
 type Invoice struct {
@@ -63,14 +64,34 @@ type Invoice struct {
 	Provider    *Company     `yaml:"provider"`
 	Customer    *Company     `yaml:"customer"`
 	Products    []*Product   `yaml:"products"`
-	Subtotal    float64      // Computed
+	Subtotal    float64      `yaml:"-"` // Computed
 	Taxes       any          `yaml:"taxes"`
-	Total       float64      // Computed
+	Total       float64      `yaml:"-"` // Computed
 	Contact     *Contact     `yaml:"contact"`
 	PaymentInfo *PaymentInfo `yaml:"paymentInfo"`
 }
 
-func New(location string) (*Invoice, error) {
+func New() (*Invoice, error) {
+	return &Invoice{
+		Number:  "",
+		Date:    time.Now().Format("2006-01-02"),
+		DueDate: time.Now().Add(24 * time.Hour * 30).Format("2006-01-02"),
+		Provider: &Company{
+			Address: &Address{},
+		},
+		Customer: &Company{
+			Address: &Address{},
+		},
+		Products:    []*Product{},
+		Subtotal:    0,
+		Taxes:       []*Tax{},
+		Total:       0,
+		Contact:     &Contact{},
+		PaymentInfo: &PaymentInfo{},
+	}, nil
+}
+
+func NewFrom(location string) (*Invoice, error) {
 	var content string
 
 	if util.IsURL(location) {
@@ -92,6 +113,10 @@ func New(location string) (*Invoice, error) {
 		content = string(fileContent)
 	}
 
+	return NewFromContent(content)
+}
+
+func NewFromContent(content string) (*Invoice, error) {
 	var inv Invoice
 	err := yaml.Unmarshal([]byte(content), &inv)
 	if err != nil {
@@ -187,6 +212,14 @@ func (inv *Invoice) getTotal() float64 {
 		total += tv.Value
 	}
 	return total
+}
+
+func (inv *Invoice) MarshalYAML() (string, error) {
+	bb, err := yaml.Marshal(inv)
+	if err != nil {
+		return "", err
+	}
+	return string(bb), nil
 }
 
 func importCompany(filePath string) (*Company, error) {
