@@ -49,7 +49,7 @@ I-2024-3.pdf file created
 | `-f, --file`   | Invoice YAML file path or URL  |  Yes |  |
 | `-t, --template`   | Invoice template (.tex) file path or URL   |  No | https://raw.githubusercontent.com/hvalls/invoicetastic/main/_templates/english-usd.tex |
 
-## Invoice YAML file
+# Invoice YAML file
 
 [This is an example of an invoice YAML file](./examples/invoice.example.yml)
 
@@ -79,13 +79,13 @@ customer:
 
 NOTE: Remember `taxes` YAML file must be an array.
 
-## Templates
+# Templates
 
 A template is a LaTex file using [Golang template system](https://pkg.go.dev/text/template). There are some templates under [_templates](https://github.com/hvalls/invoicetastic/tree/main/_templates) directory you can use. Also, you can create your own. 
 
-### Parameters mapping
+# Parameters mapping
 
-| Template file parameter | YAML file parameter  | Description  | 
+| Template file (.tex) parameter | Invoice YAML file parameter  | Description  | 
 |---|---|---|
 | `{{ .Number }}`   | `number`  |  Invoice number |
 | `{{ .Date }}`   | `date`  |  Invoice date |
