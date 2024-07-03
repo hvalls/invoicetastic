@@ -27,6 +27,7 @@ $ invoicetastic create [invoice number]
 **Example**
 ```bash
 $ invoicetastic create I-2024-3
+I-2024-3.yml file created
 ```
 
 ## Generate PDF from invoice YAML file
@@ -39,6 +40,7 @@ $ invoicetastic generate -f [invoice YAML file or URL] -t [template path or URL]
 **Example**
 ```bash
 $ invoicetastic generate -f I-2024-3.yml -t https://raw.githubusercontent.com/hvalls/invoicetastic/main/_templates/english-usd.tex
+I-2024-3.pdf file created
 ```
 
 #### Parameters 
