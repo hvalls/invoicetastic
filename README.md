@@ -32,7 +32,7 @@ I-2024-3.yml file created
 
 ## Generate PDF from invoice YAML file
 
-It renders invoice data to PDF using the given template (see section Templates).
+It renders invoice data to PDF using the given template (see section Templates). Also, it computes product and invoice totals, taking taxes into account. 
 
 ```bash
 $ invoicetastic generate -f [invoice YAML file or URL] -t [template path or URL]
