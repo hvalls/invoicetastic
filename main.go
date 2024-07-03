@@ -1,9 +1,9 @@
 package main
 
-func main() {
-	rootCmd.AddCommand(NewGenerateCmd())
+import "invoicetastic/cmd"
 
-	if err := rootCmd.Execute(); err != nil {
+func main() {
+	if err := cmd.Execute(); err != nil {
 		panic(err)
 	}
 }

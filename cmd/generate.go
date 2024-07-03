@@ -1,4 +1,4 @@
-package main
+package cmd
 
 import (
 	"fmt"
@@ -7,11 +7,6 @@ import (
 
 	"github.com/spf13/cobra"
 )
-
-var rootCmd = &cobra.Command{
-	Use:   "invoicestastic",
-	Short: "Invoicestastic is a tool for generating invoices",
-}
 
 var invoiceLocation string
 var templateLocation string
@@ -39,7 +34,7 @@ var generateCmd = &cobra.Command{
 	},
 }
 
-func NewGenerateCmd() *cobra.Command {
+func buildGenerateCmd() *cobra.Command {
 	generateCmd.Flags().StringVarP(&invoiceLocation, "file", "f", "", "invoice yaml file location (file path or URL)")
 	err := generateCmd.MarkFlagRequired("file")
 	if err != nil {
