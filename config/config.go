@@ -9,8 +9,13 @@ import (
 
 const configFile = "invoicetastic.yml"
 
+type Defaults struct {
+	Template string           `yaml:"template"`
+	Data     *invoice.Invoice `yaml:"data"`
+}
+
 type Config struct {
-	Defaults *invoice.Invoice `yaml:"defaults"`
+	Defaults *Defaults `yaml:"defaults"`
 }
 
 func GetDefault() (*invoice.Invoice, error) {
@@ -33,23 +38,23 @@ func GetDefault() (*invoice.Invoice, error) {
 		return nil, err
 	}
 
-	if c.Defaults.Provider != nil {
-		i.Provider = c.Defaults.Provider
+	if c.Defaults.Data.Provider != nil {
+		i.Provider = c.Defaults.Data.Provider
 	}
-	if c.Defaults.Customer != nil {
-		i.Customer = c.Defaults.Customer
+	if c.Defaults.Data.Customer != nil {
+		i.Customer = c.Defaults.Data.Customer
 	}
-	if len(c.Defaults.Products) > 0 {
-		i.Products = c.Defaults.Products
+	if len(c.Defaults.Data.Products) > 0 {
+		i.Products = c.Defaults.Data.Products
 	}
-	if c.Defaults.Taxes != nil {
-		i.Taxes = c.Defaults.Taxes
+	if c.Defaults.Data.Taxes != nil {
+		i.Taxes = c.Defaults.Data.Taxes
 	}
-	if c.Defaults.Contact != nil {
-		i.Contact = c.Defaults.Contact
+	if c.Defaults.Data.Contact != nil {
+		i.Contact = c.Defaults.Data.Contact
 	}
-	if c.Defaults.PaymentInfo != nil {
-		i.PaymentInfo = c.Defaults.PaymentInfo
+	if c.Defaults.Data.PaymentInfo != nil {
+		i.PaymentInfo = c.Defaults.Data.PaymentInfo
 	}
 	return i, nil
 }

@@ -31,7 +31,7 @@ I-2024-3.yml file created
 ```
 
 ### Default invoice data
-Some information is common to all invoices you create. To avoid re-entering this information each time, create a configuration file named `invoicetastic.yml` in your current directory. In this file, add a `defaults` section to store default invoice data (e.g., provider, contact, and other necessary details).
+Some information is common to all invoices you create. To avoid re-entering this information each time, create a configuration file named `invoicetastic.yml` in your current directory. In this file, add a `defaults` section and, inside this one, a `data` section to store default invoice data (e.g., provider, contact, and other necessary details).
 
 
 When you run `invoicetastic create`, invoice data from `invoicetastic.yml` will be automatically included in the created invoice.
