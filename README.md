@@ -81,7 +81,7 @@ NOTE: Remember `taxes` YAML file must be an array.
 
 ## Templates
 
-A template is a LaTex file using [Golang template system](https://pkg.go.dev/text/template). There are some templates under `_templates` directory you can use. Also, you can create your own. 
+A template is a LaTex file using [Golang template system](https://pkg.go.dev/text/template). There are some templates under [_templates](https://github.com/hvalls/invoicetastic/tree/main/_templates) directory you can use. Also, you can create your own. 
 
 ### Parameters mapping
 
