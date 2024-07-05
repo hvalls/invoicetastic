@@ -1,0 +1,14 @@
+defaults:
+  data:
+    provider:
+      name: "Tech Innovators Inc."
+      vat: "GB123456789"
+      address: 
+        line1: "1234 Innovation Drive, Suite 567"
+        line2: "Silicon Valley, CA 94043"
+        line3:
+    paymentInfo:
+      bank: "Silicon Valley Bank"
+      accountName: "Tech Innovators Inc."
+      accountNumber: "123456789"
+      swiftBic: "SVBXXX"
