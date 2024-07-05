@@ -1,5 +1,5 @@
 # Invoicetastic
-Invoicetastic is a CLI-based tool for generating PDF invoices.
+Invoicetastic is a CLI-based tool for generating PDF invoices from LaTex templates.
 
 # Installation
 
