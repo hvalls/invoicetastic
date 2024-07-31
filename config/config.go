@@ -1,6 +1,7 @@
 package config
 
 import (
+	"errors"
 	"invoicetastic/invoice"
 	"os"
 
@@ -26,7 +27,7 @@ func GetDefault() (*invoice.Invoice, error) {
 
 	configFileContent, err := os.ReadFile(configFile)
 	if err != nil {
-		if err == os.ErrNotExist {
+		if errors.Is(err, os.ErrNotExist) {
 			return i, nil
 		}
 		return nil, err
