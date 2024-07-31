@@ -34,7 +34,7 @@ func GetDefault() (*invoice.Invoice, error) {
 	}
 
 	var c Config
-	err = yaml.Unmarshal([]byte(configFileContent), &c)
+	err = yaml.Unmarshal(configFileContent, &c)
 	if err != nil {
 		return nil, err
 	}
