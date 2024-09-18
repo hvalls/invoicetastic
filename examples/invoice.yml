@@ -1,0 +1,35 @@
+number: I-2024-3
+date: "2024-09-12"
+dueDate: "2024-10-12"
+provider:
+  name: Creative Solutions Ltd.
+  vatNumber: DE987654321
+  address:
+  - 789 Pioneer Avenue, Floor 3
+  - New York
+  - NY 1000
+client:
+  name: Tech Innovators Inc.
+  vatNumber: GB123456789
+  address:
+  - 1234 Innovation Drive, Suite 567
+  - Silicon Valley, CA 94043
+lines:
+- name: Innovative Tech Software License
+  unitPrice: 500
+  qty: 2
+- name: Technical Support (Annual)
+  unitPrice: 300
+  qty: 4
+taxes:
+- name: VAT
+  percentage: 10
+contact:
+  name: Tech Innovators Inc.
+  email: billing@techinnovators.com
+  website: https://www.techinnovators.com
+paymentInfo:
+  bank: Silicon Valley Bank
+  accountName: Tech Innovators Inc.
+  accountNumber: "123456789"
+  swiftBic: SVBXXX

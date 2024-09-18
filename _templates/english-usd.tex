@@ -1,0 +1,85 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{array}
+\usepackage{longtable}
+
+% \usepackage{helvet}
+\usepackage{booktabs} % for better-looking tables
+\usepackage{colortbl} % for coloring table rows
+
+% Page layout settings
+\geometry{a4paper, margin=1in}
+\pagestyle{empty} % Remove page numbers
+
+% Set default font to Helvetica
+\renewcommand{\familydefault}{\sfdefault}
+
+% Command to increase padding in tables
+\renewcommand{\arraystretch}{1.5}
+
+\begin{document}
+
+% Title
+\noindent{\Huge \textbf{Invoice {{ .Number }} }} \\[1cm]
+
+% From and To sections
+\begin{tabbing}
+  \hspace{8cm} \= \hspace{8cm} \kill
+  \textbf{From:} \> \textbf{To:} \\[0.3cm]
+  {{ .Provider.Name }} \> {{ .Client.Name }} \\[0.2cm]
+
+  {{ $pLen := len .Provider.Address }}
+  {{ $cLen := len .Client.Address }}
+  {{ if gt $pLen $cLen }}
+      {{ range $i, $address := .Provider.Address }}
+          {{ $address }} \> {{ if lt $i $cLen }}{{ index $.Client.Address $i }}{{ end }} \\
+      {{ end }}
+  {{ else }}
+      {{ range $i, $address := .Client.Address }}
+          {{ if lt $i $pLen }}{{ index $.Provider.Address $i }}{{ end }} \> {{ $address }} \\
+      {{ end }}
+  {{ end }}
+
+  {{ .Provider.VATNumber }} \> {{ .Client.VATNumber }} \\
+\end{tabbing}
+
+\vspace{2cm}
+
+% Invoice information
+\noindent
+\textbf{Invoice Number:} {{ .Number }} \\[0.3cm]
+\textbf{Invoice Date:} {{ .Date }} \\[0.3cm]
+\textbf{Due Date:} {{ .DueDate }} \\[1cm]
+
+\vspace{1cm}
+
+% Table of lines
+\begin{center}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}cccc}
+    \textbf{Description} & \textbf{Quantity} & \textbf{Unit Price} & \textbf{Total} \\ \midrule
+    {{range .Lines}}
+    {{ .Name }} & {{ .Qty}} & \${{ .UnitPrice }} & \${{ .Total }} \\ \midrule 
+    {{end}}
+    \multicolumn{3}{r}{Subtotal} & \${{ .Subtotal }} \\
+    {{range .Taxes}}
+    \multicolumn{3}{r}{ {{ .Name }} ({{ .Percentage }}\%)} & \${{ .Value }} \\
+    {{end}}
+    \multicolumn{3}{r}{\textbf{Total}} & \${{ .Total }} \\
+\end{tabular*}
+\end{center}
+
+\vspace{3cm}
+
+% Payment info and Contact
+\begin{tabular}{@{}p{0.50\textwidth}p{0.50\textwidth}@{}}
+    \textbf{Payment Instructions} & \textbf{Contact} \\
+    Bank: {{ .PaymentInfo.Bank }} & {{ .Contact.Name }}\\
+    Account Name: {{ .PaymentInfo.AccountName }} & {{ .Contact.Website }} \\
+    Account Number: {{ .PaymentInfo.AccountNumber }} & \\
+    SWIFT/BIC: {{ .PaymentInfo.SwiftBIC }} & \\
+\end{tabular}
+
+\vspace{1cm}
+
+\end{document}

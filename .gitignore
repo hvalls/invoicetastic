@@ -1,0 +1,16 @@
+*.aux
+*.log
+*.out
+*.pdf
+.DS_Store
+invoicetastic
+examples/2invoice.example.yml
+_clients/
+_providers/
+_taxes/
+_contact/
+_payment/
+_products/
+ignore.invoicetastic.yml
+invoicetastic.yml
+example.yml
